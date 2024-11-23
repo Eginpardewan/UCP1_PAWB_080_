@@ -11,3 +11,8 @@ app.use(bodyParser.json());
 
 app.use("/Bibit", bibitRoute);
 app.use("/Pupuk", pupukRoute);
+app.get("/", (req, res) =>{
+    console.log(['GET ROUTE']);
+    res.send("Selamat Datang Di Website Petani Serderhana");
+});
+
