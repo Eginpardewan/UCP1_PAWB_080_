@@ -35,3 +35,13 @@ const bibit = [
 router.get("/", (req, res) => {
     res.json(bibit); 
 });
+
+// POST Method untuk menambah data bibit baru
+router.post("/", (req, res) => {
+    const { name, type, category } = req.body;
+    const id = bibit.length ? bibit[bibit.length - 1].id + 1 : 1;
+    const newBibit = { id, name, type, category };
+    bibit.push(newBibit);
+    res.status(201).json(newBibit);
+});
+
