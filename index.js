@@ -16,3 +16,5 @@ app.get("/", (req, res) =>{
     res.send("Selamat Datang Di Website Petani Serderhana");
 });
 
+pp.use(bodyParser.json());a
+app.listen(PORT, () => console.log(`server berjalan di port : http://localhost:${PORT}`));
