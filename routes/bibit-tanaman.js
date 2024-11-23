@@ -31,3 +31,7 @@ const bibit = [
     },
 ];
 
+// Route GET untuk mendapatkan semua bibit
+router.get("/", (req, res) => {
+    res.json(bibit); 
+});
