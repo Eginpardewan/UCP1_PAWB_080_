@@ -31,3 +31,17 @@ const dataPupuk = [
     },
 ];
 
+// Route GET untuk mendapatkan semua pupuk
+router.get("/", (req, res) => {
+    res.json(dataPupuk);
+});
+
+// Route POST untuk menambah data pupuk baru
+router.post("/", (req, res) => {
+    const { name, jumlah, satuan } = req.body;
+    const id = dataPupuk.length ? dataPupuk[dataPupuk.length - 1].id + 1 : 1;
+    const newPupuk = { id, name, jumlah, satuan };
+    dataPupuk.push(newPupuk);
+    res.status(201).json(newPupuk);
+});
+
