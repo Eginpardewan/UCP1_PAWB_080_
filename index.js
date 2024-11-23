@@ -10,3 +10,4 @@ app.use(bodyParser.json());
 
 
 app.use("/Bibit", bibitRoute);
+app.use("/Pupuk", pupukRoute);
