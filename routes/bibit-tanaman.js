@@ -45,3 +45,16 @@ router.post("/", (req, res) => {
     res.status(201).json(newBibit);
 });
 
+// DELETE Method untuk menghapus data bibit berdasarkan id
+router.delete("/:id", (req, res) => {
+    const { id } = req.params;
+    const index = bibit.findIndex((b) => b.id === parseInt(id));
+
+    if (index !== -1) {
+        const deletedBibit = bibit.splice(index, 1);
+        res.json(deletedBibit[0]);
+    } else {
+        res.status(404).json({ message: "Bibit tidak ditemukan" });
+    }
+});
+
