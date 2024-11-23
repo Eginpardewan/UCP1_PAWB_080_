@@ -58,3 +58,20 @@ router.delete("/:id", (req, res) => {
     }
 });
 
+// Route PUT untuk memperbarui data pupuk berdasarkan id
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { name, jumlah, satuan } = req.body;
+    const pupukToUpdate = dataPupuk.find((p) => p.id === parseInt(id));
+
+    if (pupukToUpdate) {
+        pupukToUpdate.name = name;
+        pupukToUpdate.jumlah = jumlah;
+        pupukToUpdate.satuan = satuan;
+        res.json(pupukToUpdate);
+    } else {
+        res.status(404).json({ message: "Pupuk tidak ditemukan" });
+    }
+});
+
+export default router;
