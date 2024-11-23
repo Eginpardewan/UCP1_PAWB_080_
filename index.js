@@ -9,3 +9,4 @@ const PORT = 8000;
 app.use(bodyParser.json());
 
 
+app.use("/Bibit", bibitRoute);
