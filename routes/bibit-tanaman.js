@@ -58,3 +58,20 @@ router.delete("/:id", (req, res) => {
     }
 });
 
+// PUT Method untuk memperbarui data bibit berdasarkan id
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { name, type, category } = req.body;
+    const bibitToUpdate = bibit.find((b) => b.id === parseInt(id));
+
+    if (bibitToUpdate) {
+        bibitToUpdate.name = name;
+        bibitToUpdate.type = type;
+        bibitToUpdate.category = category;
+        res.json(bibitToUpdate);
+    } else {
+        res.status(404).json({ message: "Bibit tidak ditemukan" });
+    }
+});
+
+export default router;
