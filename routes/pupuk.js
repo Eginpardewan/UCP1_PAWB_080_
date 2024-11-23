@@ -45,3 +45,16 @@ router.post("/", (req, res) => {
     res.status(201).json(newPupuk);
 });
 
+// Route DELETE untuk menghapus data pupuk berdasarkan id
+router.delete("/:id", (req, res) => {
+    const { id } = req.params;
+    const index = dataPupuk.findIndex((p) => p.id === parseInt(id));
+
+    if (index !== -1) {
+        const deletedPupuk = dataPupuk.splice(index, 1);
+        res.json(deletedPupuk[0]);
+    } else {
+        res.status(404).json({ message: "Pupuk tidak ditemukan" });
+    }
+});
+
