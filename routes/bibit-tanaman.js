@@ -1,4 +1,5 @@
 import express from "express";
+import { type } from "os";
 
 // Buat instance dari express.Router
 const router = express.Router();
@@ -8,25 +9,25 @@ const bibit = [
     {
         id: 1,
         name: "Bibit Mangga",
-        type: "Buah",
+        tipe: "Buah",
         category: "Buah-Buahan",
     },
     {
         id: 2,
         name: "Bibit Padi",
-        type: "Bahan Pangan",
+        tipe: "Bahan Pangan",
         category: "Tanaman Pangan",
     },
     {
         id: 3,
         name: "Bibit Jagung",
-        type: "Buah dan Sayur",
+        tipe: "Buah dan Sayur",
         category: "Tanaman Pangan",
     },
     {
         id: 4,
         name: "Bibit Kelapa",
-        type: "Buah",
+        tipe: "Buah",
         category: "Pohon Tinggi",
     },
 ];
@@ -36,42 +37,58 @@ router.get("/", (req, res) => {
     res.json(bibit); 
 });
 
-// POST Method untuk menambah data bibit baru
+// Menambahkan bibit baru
 router.post("/", (req, res) => {
-    const { name, type, category } = req.body;
-    const id = bibit.length ? bibit[bibit.length - 1].id + 1 : 1;
-    const newBibit = { id, name, type, category };
+    const { name, tipe, category } = req.body;
+  
+    if (!name || !tipe || !category) {
+      return res.status(400).json({ message: "Semua field harus diisi" });
+    }
+  
+    const newBibit = {
+      id: bibit.length + 1, // ID otomatis
+      name,
+      tipe,
+      category,
+    };
+  
     bibit.push(newBibit);
     res.status(201).json(newBibit);
-});
-
-// DELETE Method untuk menghapus data bibit berdasarkan id
-router.delete("/:id", (req, res) => {
+  });
+  
+  // Mengupdate bibit berdasarkan ID
+  router.put("/:id", (req, res) => {
     const { id } = req.params;
-    const index = bibit.findIndex((b) => b.id === parseInt(id));
-
-    if (index !== -1) {
-        const deletedBibit = bibit.splice(index, 1);
-        res.json(deletedBibit[0]);
-    } else {
-        res.status(404).json({ message: "Bibit tidak ditemukan" });
+    const { name, tipe, category } = req.body;
+  
+    const index = bibit.findIndex((item) => item.id === parseInt(id));
+  
+    if (index === -1) {
+      return res.status(404).json({ message: "Bibit tidak ditemukan" });
     }
-});
-
-// PUT Method untuk memperbarui data bibit berdasarkan id
-router.put("/:id", (req, res) => {
+  
+    if (!name || !tipe || !category) {
+      return res.status(400).json({ message: "Semua field harus diisi" });
+    }
+  
+    // Update data
+    bibit[index] = { ...bibit[index], name, tipe, category };
+    res.json(bibit[index]);
+  });
+  
+  // Menghapus bibit berdasarkan ID
+  router.delete("/:id", (req, res) => {
     const { id } = req.params;
-    const { name, type, category } = req.body;
-    const bibitToUpdate = bibit.find((b) => b.id === parseInt(id));
-
-    if (bibitToUpdate) {
-        bibitToUpdate.name = name;
-        bibitToUpdate.type = type;
-        bibitToUpdate.category = category;
-        res.json(bibitToUpdate);
-    } else {
-        res.status(404).json({ message: "Bibit tidak ditemukan" });
+  
+    const index = bibit.findIndex((item) => item.id === parseInt(id));
+  
+    if (index === -1) {
+      return res.status(404).json({ message: "Bibit tidak ditemukan" });
     }
-});
-
-export default router;
+  
+    // Hapus data dari array
+    bibit.splice(index, 1);
+    res.sendStatus(204);
+  });
+  
+  export default router;
