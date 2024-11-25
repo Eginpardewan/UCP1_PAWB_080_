@@ -39,54 +39,55 @@ router.get("/", (req, res) => {
 // Menambahkan pupuk baru
 router.post("/", (req, res) => {
     const { name, jumlah, satuan } = req.body;
-  
+
     if (!name || !jumlah || !satuan) {
-      return res.status(400).json({ message: "Semua field harus diisi" });
+        return res.status(400).json({ message: "Semua field harus diisi" });
     }
-  
+
     const newPupuk = {
-      id: pupuk.length + 1, // ID otomatis
-      name,
-      jumlah,
-      satuan,
+        id: dataPupuk.length + 1, // ID otomatis
+        name,
+        jumlah,
+        satuan,
     };
-  
-    pupuk.push(newPupuk);
+
+    dataPupuk.push(newPupuk); // Tambahkan ke dataPupuk
     res.status(201).json(newPupuk);
-  });
-  
-  // Mengupdate pupuk berdasarkan ID
-  router.put("/:id", (req, res) => {
+});
+
+// Mengupdate pupuk berdasarkan ID
+router.put("/:id", (req, res) => {
     const { id } = req.params;
     const { name, jumlah, satuan } = req.body;
-  
-    const index = pupuk.findIndex((item) => item.id === parseInt(id));
-  
+
+    const index = dataPupuk.findIndex((item) => item.id === parseInt(id));
+
     if (index === -1) {
-      return res.status(404).json({ message: "Pupuk tidak ditemukan" });
+        return res.status(404).json({ message: "Pupuk tidak ditemukan" });
     }
-  
-    if (!nama_pupuk || !nutrisi || !tipe_pupuk) {
-      return res.status(400).json({ message: "Semua field harus diisi" });
+
+    if (!name || !jumlah || !satuan) {
+        return res.status(400).json({ message: "Semua field harus diisi" });
     }
-  
+
     // Update data
-    pupuk[index] = { ...pupuk[index], nama_pupuk, nutrisi, tipe_pupuk };
-    res.json(pupuk[index]);
-  });
-  
-  // Menghapus pupuk berdasarkan ID
-  router.delete("/:id", (req, res) => {
+    dataPupuk[index] = { ...dataPupuk[index], name, jumlah, satuan };
+    res.json(dataPupuk[index]);
+});
+
+// Menghapus pupuk berdasarkan ID
+router.delete("/:id", (req, res) => {
     const { id } = req.params;
-    const index = pupuk.findIndex((item) => item.id === parseInt(id));
-  
+
+    const index = dataPupuk.findIndex((item) => item.id === parseInt(id));
+
     if (index === -1) {
-      return res.status(404).json({ message: "Pupuk tidak ditemukan" });
+        return res.status(404).json({ message: "Pupuk tidak ditemukan" });
     }
-  
+
     // Hapus data dari array
-    pupuk.splice(index, 1);
-    res.status(204).send(); // Tidak ada konten yang dikembalikan
-  });
-  
-  export default router;
+    dataPupuk.splice(index, 1);
+    res.sendStatus(204);
+});
+
+export default router;
